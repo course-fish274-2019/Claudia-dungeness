@@ -2,8 +2,15 @@
 library(dplyr)
 library(tidyverse)
 
-#Load data
-DC_catch <- read.csv("data/2007.2017_DC_catch.csv", header = TRUE)
+#Load data, areas 11 & 13
+DC_catch.11.13 <- read.csv("data/2007.2017_DC_catch.csv", header = TRUE)
+
+#Load data, area 10
+DC_catch.10 <- read.csv("data/2007.2017_DC_catch.10.csv", header = TRUE)
+
+#Stitch tables
+DC_catch <- inner_join(DC_catch.11.13, DC_catch.10, by = "year")
+head(DC_catch)
 
 #Main data plot (Areas 11 and 13)
 ggplot(DC_catch) +
@@ -12,6 +19,9 @@ ggplot(DC_catch) +
   geom_smooth(mapping = aes(x = year, y = lbs_dungeness.11), col = "blue") +
   geom_point(mapping = aes(x = year, y = lbs_dungeness.13), col = "red") +
   geom_smooth(mapping = aes(x = year, y = lbs_dungeness.13), col = "red") +
+  geom_point(mapping = aes(x = year, y = lbs_dungeness.10), col = "green",
+             shape = "square") +
+  geom_smooth(mapping = aes(x = year, y = lbs_dungeness.10), col = "green") +
   ylim(0,125000) +
   labs(title = "Pounds of Dungeness Caught per Year", x = "Year", 
        y = "Pounds of Dungeness")
