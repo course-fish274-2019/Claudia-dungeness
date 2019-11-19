@@ -15,23 +15,37 @@ library(tidyverse)
 ## Data
 
 ## Raw data
+
+Ending numerals in variable name represent marine area.
+
 # Marine areas 11 & 13 catch data
 ```{r catch one}
-DC_catch.11.13 <- read.csv("../Data/2007.2017_DC_catch.csv", header = TRUE)
+DC_catch.10 <- read.csv("../Data/2007.2017_DC_catch.10.csv", header = TRUE)
+```
+
+```{r table 10, echo=FALSE}
+head(DC_catch.10)
 ```
 
 # Marina area 10 catch data
 ```{r catch two}
-DC_catch.10 <- read.csv("../Data/2007.2017_DC_catch.10.csv", header = TRUE)
+DC_catch.11.13 <- read.csv("../Data/2007.2017_DC_catch.csv", header = TRUE)
+```
+
+```{r table 11.13, echo=FALSE}
+head(DC_catch.11.13)
 ```
 
 # Stitching tables
 ```{r stitch}
-DC_catch <- inner_join(DC_catch.11.13, DC_catch.10, by = "year")
-head(DC_catch)
+DC_catch <- inner_join(DC_catch.10, DC_catch.11.13, by = "year")
 ```
 
 There is now a single table describing the catch rates in lbs. at marine areas 10, 11, and 13.
+
+```{r}
+head(DC_catch)
+```
 
 ---
 

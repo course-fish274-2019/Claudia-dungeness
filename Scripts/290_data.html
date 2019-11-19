@@ -190,27 +190,42 @@ summary {
 </div>
 <div id="raw-data" class="section level2">
 <h2>Raw data</h2>
+<p>Ending numerals in variable name represent marine area.</p>
 </div>
 <div id="marine-areas-11-13-catch-data" class="section level1">
 <h1>Marine areas 11 &amp; 13 catch data</h1>
-<pre class="r"><code>DC_catch.11.13 &lt;- read.csv(&quot;../Data/2007.2017_DC_catch.csv&quot;, header = TRUE)</code></pre>
+<pre class="r"><code>DC_catch.10 &lt;- read.csv(&quot;../Data/2007.2017_DC_catch.10.csv&quot;, header = TRUE)</code></pre>
+<pre><code>##   year lbs_dungeness.10
+## 1 2007            61429
+## 2 2008            50941
+## 3 2009            72231
+## 4 2010           119099
+## 5 2011           146080
+## 6 2012           168269</code></pre>
 </div>
 <div id="marina-area-10-catch-data" class="section level1">
 <h1>Marina area 10 catch data</h1>
-<pre class="r"><code>DC_catch.10 &lt;- read.csv(&quot;../Data/2007.2017_DC_catch.10.csv&quot;, header = TRUE)</code></pre>
+<pre class="r"><code>DC_catch.11.13 &lt;- read.csv(&quot;../Data/2007.2017_DC_catch.csv&quot;, header = TRUE)</code></pre>
+<pre><code>##   year lbs_dungeness.11 lbs_dungeness.13
+## 1 2007            44884            16822
+## 2 2008            43887            49906
+## 3 2009            62661            55714
+## 4 2010            86842           118734
+## 5 2011           107368            69200
+## 6 2012            89262            65899</code></pre>
 </div>
 <div id="stitching-tables" class="section level1">
 <h1>Stitching tables</h1>
-<pre class="r"><code>DC_catch &lt;- inner_join(DC_catch.11.13, DC_catch.10, by = &quot;year&quot;)
-head(DC_catch)</code></pre>
-<pre><code>##   year lbs_dungeness.11 lbs_dungeness.13 lbs_dungeness.10
-## 1 2007            44884            16822            61429
-## 2 2008            43887            49906            50941
-## 3 2009            62661            55714            72231
-## 4 2010            86842           118734           119099
-## 5 2011           107368            69200           146080
-## 6 2012            89262            65899           168269</code></pre>
+<pre class="r"><code>DC_catch &lt;- inner_join(DC_catch.10, DC_catch.11.13, by = &quot;year&quot;)</code></pre>
 <p>There is now a single table describing the catch rates in lbs. at marine areas 10, 11, and 13.</p>
+<pre class="r"><code>head(DC_catch)</code></pre>
+<pre><code>##   year lbs_dungeness.10 lbs_dungeness.11 lbs_dungeness.13
+## 1 2007            61429            44884            16822
+## 2 2008            50941            43887            49906
+## 3 2009            72231            62661            55714
+## 4 2010           119099            86842           118734
+## 5 2011           146080           107368            69200
+## 6 2012           168269            89262            65899</code></pre>
 <hr />
 <div id="plot-of-main-data" class="section level2">
 <h2>Plot of main data</h2>
