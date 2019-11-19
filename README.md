@@ -2,6 +2,12 @@
 
 Files in order of use
 
+Images - Contains images used in R files
+
+dungeness_crab.jpg - image of dungeness crab from Washington Department of Fish and Wildlife (WDFW)
+
+marine_areas.10.11.13 - screenshot of areas 10, 11, and 13 from the WDFW website
+
 Data - Contains data used in R files
 
 2007.2017_DC_catch.csv - Table of yearly dungeness catch (lbs) from 2007-2017 for marine areas 11 & 13
