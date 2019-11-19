@@ -17,7 +17,7 @@ library(tidyverse)
 ## Raw data
 # Marine areas 11 & 13 catch data
 ```{r catch one}
-DC_catch <- read.csv("../Data/2007.2017_DC_catch.csv", header = TRUE)
+DC_catch.11.13 <- read.csv("../Data/2007.2017_DC_catch.csv", header = TRUE)
 ```
 
 # Marina area 10 catch data
@@ -57,7 +57,7 @@ Looking for trends within the main plot.
 
 # Data subsets
 ```{r subsets}
-lin_data.10 <- subset(DC_catch, year %in% c("2013", "2014", "2015", "2016", "2017")
+lin_data.10 <- subset(DC_catch, year %in% c("2013", "2014", "2015", "2016", "2017"))
 lin_data.11 <- subset(DC_catch, year %in% c("2014", "2015", "2016", "2017"))
 lin_data.13 <- subset(DC_catch, year %in% c("2011", "2012", "2013", "2014", 
                                             "2015", "2016", "2017"))
