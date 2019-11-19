@@ -15,17 +15,17 @@ library(tidyverse)
 ## Data
 
 ## Raw data
-Marine areas 11 & 13 catch data
+# Marine areas 11 & 13 catch data
 ```{r catch one}
-DC_catch <- read.csv("data/2007.2017_DC_catch.csv", header = TRUE)
+DC_catch <- read.csv("Data/2007.2017_DC_catch.csv", header = TRUE)
 ```
 
-Marina area 10 catch data
+# Marina area 10 catch data
 ```{r catch two}
-DC_catch.10 <- read.csv("data/2007.2017_DC_catch.10.csv", header = TRUE)
+DC_catch.10 <- read.csv("Data/2007.2017_DC_catch.10.csv", header = TRUE)
 ```
 
-Stitching tables
+# Stitching tables
 ```{r stitch}
 DC_catch <- inner_join(DC_catch.11.13, DC_catch.10, by = "year")
 head(DC_catch)
@@ -53,15 +53,19 @@ ggplot(DC_catch) +
 
 Looking for trends within the main plot.
 
-Data subsets
+# Data subsets
 ```{r subsets}
+lin_data.10 <- subset(DC_catch, year %in% c("2013", "2014", "2015", "2016", "2017")
 lin_data.11 <- subset(DC_catch, year %in% c("2014", "2015", "2016", "2017"))
 lin_data.13 <- subset(DC_catch, year %in% c("2011", "2012", "2013", "2014", 
                                             "2015", "2016", "2017"))
 ```
 
-Linear models using subsets
+# Linear models using subsets
 ```{r linear model}
+lm_fit.10 <- lm(year ~ lbs_dungeness.10, data=lin_data.10)
+summary(lm_fit.10)
+
 lm_fit.11 <- lm(year ~ lbs_dungeness.11, data=lin_data.11)
 summary(lm_fit.11)
 
@@ -71,9 +75,9 @@ summary(lm_fit.13)
 
 ---
 
-## Subset plot
+## Subset plots
 
-Marine area 11
+# Marine area 11
 ```{r subset plot area 11, echo=FALSE}
 predicted.11 <- data.frame(catch_pred = predict(lm_fit.11, lin_data.11), 
                            lbs_dungeness.11=lin_data.11$lbs_dungeness.11)
@@ -84,7 +88,7 @@ ggplot(lin_data.11) +
   geom_line(data = predicted.11, aes(x=catch_pred, y=lbs_dungeness.11))
 ```
 
-Marine area 13
+# Marine area 13
 ```{r subset plot area 13, echo=FALSE}
 predicted.13 <- data.frame(catch_pred = predict(lm_fit.13, lin_data.13), 
                            lbs_dungeness.13=lin_data.13$lbs_dungeness.13)

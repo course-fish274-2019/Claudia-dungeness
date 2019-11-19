@@ -3,10 +3,10 @@ library(dplyr)
 library(tidyverse)
 
 #Load data, areas 11 & 13
-DC_catch.11.13 <- read.csv("data/2007.2017_DC_catch.csv", header = TRUE)
+DC_catch.11.13 <- read.csv("Data/2007.2017_DC_catch.csv", header = TRUE)
 
 #Load data, area 10
-DC_catch.10 <- read.csv("data/2007.2017_DC_catch.10.csv", header = TRUE)
+DC_catch.10 <- read.csv("Data/2007.2017_DC_catch.10.csv", header = TRUE)
 
 #Stitch tables
 DC_catch <- inner_join(DC_catch.11.13, DC_catch.10, by = "year")
@@ -27,6 +27,8 @@ ggplot(DC_catch) +
        y = "Pounds of Dungeness")
 
 #Data subset for linear model
+#Area 10
+lin_data.10 <- subset(DC_catch, year %in% c("2013", "2014", "2015", "2016", "2017")
 #Area 11
 lin_data.11 <- subset(DC_catch, year %in% c("2014", "2015", "2016", "2017"))
 #Area 13
@@ -34,6 +36,9 @@ lin_data.13 <- subset(DC_catch, year %in% c("2011", "2012", "2013", "2014",
                                             "2015", "2016", "2017"))
 
 #Linear model using subset
+#Area 10
+lm_fit.10 <- lm(year ~ lbs_dungeness.10, data=lin_data.10)
+summary(lm_fit.10)
 #Area 11
 lm_fit.11 <- lm(year ~ lbs_dungeness.11, data=lin_data.11)
 summary(lm_fit.11)
