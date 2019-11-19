@@ -17,12 +17,12 @@ library(tidyverse)
 ## Raw data
 # Marine areas 11 & 13 catch data
 ```{r catch one}
-DC_catch <- read.csv("Data/2007.2017_DC_catch.csv", header = TRUE)
+DC_catch <- read.csv("../Data/2007.2017_DC_catch.csv", header = TRUE)
 ```
 
 # Marina area 10 catch data
 ```{r catch two}
-DC_catch.10 <- read.csv("Data/2007.2017_DC_catch.10.csv", header = TRUE)
+DC_catch.10 <- read.csv("../Data/2007.2017_DC_catch.10.csv", header = TRUE)
 ```
 
 # Stitching tables
@@ -30,6 +30,8 @@ DC_catch.10 <- read.csv("Data/2007.2017_DC_catch.10.csv", header = TRUE)
 DC_catch <- inner_join(DC_catch.11.13, DC_catch.10, by = "year")
 head(DC_catch)
 ```
+
+There is now a single table describing the catch rates in lbs. at marine areas 10, 11, and 13.
 
 ---
 
@@ -61,6 +63,8 @@ lin_data.13 <- subset(DC_catch, year %in% c("2011", "2012", "2013", "2014",
                                             "2015", "2016", "2017"))
 ```
 
+Subsets focus in on a particular part of the data showing a decline.
+
 # Linear models using subsets
 ```{r linear model}
 lm_fit.10 <- lm(year ~ lbs_dungeness.10, data=lin_data.10)
@@ -72,6 +76,8 @@ summary(lm_fit.11)
 lm_fit.13 <- lm(year ~ lbs_dungeness.13, data=lin_data.13)
 summary(lm_fit.13)
 ```
+
+There is no significant decrease in catch rate in marine area 10, however there is a significant decrease in areas 11 and 13.
 
 ---
 
