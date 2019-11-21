@@ -53,7 +53,7 @@ head(DC_catch)
 
 ## Plot of main data
 
-```{r main plot, echo=FALSE}
+```{r main plot, echo=FALSE, warning=FALSE, message=FALSE}
 ggplot(DC_catch) +
   geom_point(mapping = aes(x = year, y = lbs_dungeness.11), col = "blue", 
              shape  = "triangle") +
@@ -100,7 +100,7 @@ There is no significant decrease in catch rate in marine area 10, however there 
 ## Subset plots
 
 # Marine area 11
-```{r subset plot area 11, echo=FALSE}
+```{r subset plot area 11, echo=FALSE, warning=FALSE, message=FALSE}
 predicted.11 <- data.frame(catch_pred = predict(lm_fit.11, lin_data.11), 
                            lbs_dungeness.11=lin_data.11$lbs_dungeness.11)
 
@@ -113,7 +113,7 @@ ggplot(lin_data.11) +
 ```
 
 # Marine area 13
-```{r subset plot area 13, echo=FALSE}
+```{r subset plot area 13, echo=FALSE, warning=FALSE, message=FALSE}
 predicted.13 <- data.frame(catch_pred = predict(lm_fit.13, lin_data.13), 
                            lbs_dungeness.13=lin_data.13$lbs_dungeness.13)
 
