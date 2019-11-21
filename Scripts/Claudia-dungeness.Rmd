@@ -124,7 +124,7 @@ predicted.11 <- data.frame(catch_pred = predict(lm_fit.11, lin_data.11),
 
 ggplot(lin_data.11) +
   geom_point(mapping = aes( x = year, y = lbs_dungeness.11), 
-             col = "blue", shape = "triangle") +
+             col = "blue", shape = "triangle", size = 3) +
   geom_line(data = predicted.11, aes(x=catch_pred, y=lbs_dungeness.11)) +
   labs(title = "Pounds of Dungeness Caught per Year", x = "Year", 
        y = "Pounds of Dungeness")
@@ -140,7 +140,7 @@ predicted.13 <- data.frame(catch_pred = predict(lm_fit.13, lin_data.13),
 
 ggplot(lin_data.13) +
   geom_point(mapping = aes( x = year, y = lbs_dungeness.13), 
-             col = "red") +
+             col = "red", size = 3) +
   geom_line(data = predicted.13, aes(x=catch_pred, y=lbs_dungeness.13)) +
   labs(title = "Pounds of Dungeness Caught per Year", x = "Year", 
        y = "Pounds of Dungeness")
