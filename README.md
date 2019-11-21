@@ -23,6 +23,8 @@ Scripts - Contains R files in use
 
 290_data.Rmd - R markdown file creating a neater and more finalized version of 290_personal_paper_data.R
 
+290_data.html - html file produced by knitting 290_data.Rmd
+
 Claudia-dungeness.Rmd - R markdown file creating a presentation of information  from 290_data.Rmd
 
 Claudia-dungeness.html - html file containing presentation created in Claudia-dungeness.Rmd
