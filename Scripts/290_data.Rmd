@@ -21,31 +21,31 @@ Catch data in lbs. was collated for marine areas 10, 11, and 13 from Washington 
 Ending numerals in variable name represent marine area.
 
 # Marine areas 11 & 13 catch data
-```{r catch one}
+```{r catch one, cache=TRUE}
 DC_catch.10 <- read.csv("../Data/2007.2017_DC_catch.10.csv", header = TRUE)
 ```
 
-```{r table 10, echo=FALSE}
+```{r table 10, echo=FALSE, cache=TRUE}
 head(DC_catch.10)
 ```
 
 # Marina area 10 catch data
-```{r catch two}
+```{r catch two, cache=TRUE}
 DC_catch.11.13 <- read.csv("../Data/2007.2017_DC_catch.csv", header = TRUE)
 ```
 
-```{r table 11.13, echo=FALSE}
+```{r table 11.13, echo=FALSE, cache=TRUE}
 head(DC_catch.11.13)
 ```
 
 # Stitching tables
-```{r stitch}
+```{r stitch, cache=TRUE}
 DC_catch <- inner_join(DC_catch.10, DC_catch.11.13, by = "year")
 ```
 
 There is now a single table describing the catch rates in lbs. at marine areas 10, 11, and 13.
 
-```{r}
+```{r, cache=TRUE}
 head(DC_catch)
 ```
 
@@ -72,7 +72,7 @@ ggplot(DC_catch) +
 Looking for trends within the main plot.
 
 # Data subsets
-```{r subsets}
+```{r subsets, cache=TRUE}
 lin_data.10 <- subset(DC_catch, year %in% c("2013", "2014", "2015", "2016", "2017"))
 lin_data.11 <- subset(DC_catch, year %in% c("2014", "2015", "2016", "2017"))
 lin_data.13 <- subset(DC_catch, year %in% c("2011", "2012", "2013", "2014", 
@@ -82,7 +82,7 @@ lin_data.13 <- subset(DC_catch, year %in% c("2011", "2012", "2013", "2014",
 Subsets focus in on a particular part of the data showing a decline.
 
 # Linear models using subsets
-```{r linear model}
+```{r linear model, cache=TRUE}
 lm_fit.10 <- lm(year ~ lbs_dungeness.10, data=lin_data.10)
 summary(lm_fit.10)
 
