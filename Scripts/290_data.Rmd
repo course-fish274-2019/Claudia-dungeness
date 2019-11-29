@@ -45,8 +45,32 @@ DC_catch <- inner_join(DC_catch.10, DC_catch.11.13, by = "year")
 
 There is now a single table describing the catch rates in lbs. at marine areas 10, 11, and 13.
 
-```{r, cache=TRUE}
+```{r stitch table, cache=TRUE}
 head(DC_catch)
+```
+
+# Renaming columns
+```{r col rename}
+DC_catch_renamed <- DC_catch %>% rename("10" = lbs_dungeness.10, 
+                                     "11" = lbs_dungeness.11, "13" = lbs_dungeness.13)
+```
+
+Columns have now been renamed by only their marine area in order to make gathering  the data simpler.
+
+```{r col rename table}
+head(DC_catch_renamed)
+```
+
+#Gathering data
+```{r gather data}
+DC_catch_tidy <- DC_catch_renamed %>% 
+  gather(`10`, `11`, `13`, key = "area", value = "lbs")
+```
+
+Each observation now has seperate columns for area and pounds caught.
+
+```{r gather data table}
+head(DC_catch_tidy)
 ```
 
 ---

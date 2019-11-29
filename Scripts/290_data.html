@@ -227,6 +227,34 @@ summary {
 ## 4 2010           119099            86842           118734
 ## 5 2011           146080           107368            69200
 ## 6 2012           168269            89262            65899</code></pre>
+</div>
+<div id="renaming-columns" class="section level1">
+<h1>Renaming columns</h1>
+<pre class="r"><code>DC_catch_renamed &lt;- DC_catch %&gt;% rename(&quot;10&quot; = lbs_dungeness.10, 
+                                     &quot;11&quot; = lbs_dungeness.11, &quot;13&quot; = lbs_dungeness.13)</code></pre>
+<p>Columns have now been renamed by only their marine area in order to make gathering the data simpler.</p>
+<pre class="r"><code>head(DC_catch_renamed)</code></pre>
+<pre><code>##   year     10     11     13
+## 1 2007  61429  44884  16822
+## 2 2008  50941  43887  49906
+## 3 2009  72231  62661  55714
+## 4 2010 119099  86842 118734
+## 5 2011 146080 107368  69200
+## 6 2012 168269  89262  65899</code></pre>
+</div>
+<div id="gathering-data" class="section level1">
+<h1>Gathering data</h1>
+<pre class="r"><code>DC_catch_tidy &lt;- DC_catch_renamed %&gt;% 
+  gather(`10`, `11`, `13`, key = &quot;area&quot;, value = &quot;lbs&quot;)</code></pre>
+<p>Each observation now has seperate columns for area and pounds caught.</p>
+<pre class="r"><code>head(DC_catch_tidy)</code></pre>
+<pre><code>##   year area    lbs
+## 1 2007   10  61429
+## 2 2008   10  50941
+## 3 2009   10  72231
+## 4 2010   10 119099
+## 5 2011   10 146080
+## 6 2012   10 168269</code></pre>
 <hr />
 <div id="plot-of-main-data" class="section level2">
 <h2>Plot of main data</h2>
