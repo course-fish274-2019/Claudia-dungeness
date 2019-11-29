@@ -2,6 +2,7 @@
 library(dplyr)
 library(tidyverse)
 library(ggpubr)
+library(devtools)
 
 #Load data, areas 11 & 13
 DC_catch.11.13 <- read.csv("Data/2007.2017_DC_catch.csv", header = TRUE)
@@ -55,19 +56,22 @@ summary(lm_fit.13)
 #Regression line dataframe, area 11
 predicted.11 <- data.frame(catch_pred = predict(lm_fit.11, lin_data.11), 
                            lbs_dungeness.11=lin_data.11$lbs_dungeness.11)
+lm_fit.11 <- function(lin_data.11){
+  m.11 <- lm(year ~ lbs_dungeness.11, lin_data.11);
+  eq.11 <- substitute(italic(y) == a + b %.% italic(x)*","~~italic(r)^2~"="~r2, 
+                   list(a = format(unname(coef(m.11)[1]), digits = 2),
+                        b = format(unname(coef(m.11)[2]), digits = 2),
+                        r2 = format(summary(m.11)$r.squared, digits = 3)))
+  as.character(as.expression(eq.11));
+}
+
 #Plot, area 11
 ggplot(lin_data.11) +
   geom_point(mapping = aes(x = year, y = lbs_dungeness.11), 
              col = "blue", shape = "triangle", size = 3) +
   geom_line(data = predicted.11, aes(x=catch_pred, y=lbs_dungeness.11)) +
-  labs(title = "Pounds of Dungeness Caught per Year", x = "Year", 
-       y = "Pounds of Dungeness") +
-  stat_regline_equation(data = predicted.11, mapping = aes(x = catch_pred, 
-                                                           y = lbs_dungeness.11), 
-                        mapping = label = paste(0.8744)), label.x.npc = "center", label.y.npc = "top", 
-                        output.type = "expression", geom = "text",
-                        position = "identity", na.rm = FALSE, show.legend = NA,
-                        inherit.aes = TRUE)
+  labs(title = "Pounds of Dungeness Caught per Year - Area 11", x = "Year", 
+       y = "Pounds of Dungeness") + geom_text(x = 5, y = 10, label = lm_fit.11(lin_data.11), parse = TRUE)
 #Area 13
 #Regression line dataframe, area 13
 predicted.13 <- data.frame(catch_pred = predict(lm_fit.13, lin_data.13), 
@@ -77,5 +81,5 @@ ggplot(lin_data.13) +
   geom_point(mapping = aes( x = year, y = lbs_dungeness.13), 
              col = "red", size = 3) +
   geom_line(data = predicted.13, aes(x=catch_pred, y=lbs_dungeness.13)) +
-  labs(title = "Pounds of Dungeness Caught per Year", x = "Year", 
+  labs(title = "Pounds of Dungeness Caught per Year - Area 13", x = "Year", 
        y = "Pounds of Dungeness")
