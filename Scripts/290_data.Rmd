@@ -78,15 +78,11 @@ head(DC_catch_tidy)
 ## Plot of main data
 
 ```{r main plot, echo=FALSE, warning=FALSE, message=FALSE}
-ggplot(DC_catch) +
-  geom_point(mapping = aes(x = year, y = lbs_dungeness.11), col = "blue", 
-             shape  = "triangle") +
-  geom_smooth(mapping = aes(x = year, y = lbs_dungeness.11), col = "blue") +
-  geom_point(mapping = aes(x = year, y = lbs_dungeness.13), col = "red") +
-  geom_smooth(mapping = aes(x = year, y = lbs_dungeness.13), col = "red") +
-  ylim(0,125000) +
+ggplot(DC_catch_tidy) +
+  geom_point(mapping = aes(x = year, y = lbs, col = area)) +
+  geom_smooth(mapping = aes(x = year, y = lbs, col = area)) +
   labs(title = "Pounds of Dungeness Caught per Year", x = "Year", 
-       y = "Pounds of Dungeness")
+       y = "Pounds of Dungeness", col = "Area")
 ```
 
 ---
