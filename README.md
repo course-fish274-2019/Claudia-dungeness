@@ -40,3 +40,12 @@ Claudia-dungeness.Rproj - Contains the settings and directories specific to this
 
 
 .gitignore - Tells Git what files or folders to ignore
+
+
+Plan of action
+
+- Add regression line equations to linear model graphs of areas 11 and 13
+
+- Add new plots to presentation
+
+- Clean up presentation
