@@ -3,7 +3,7 @@ title: "Decline in South Sound's *Cancer magister*  Fishery"
 author: "Claudia Mateo"
 output: 
   slidy_presentation:
-    theme: cosmo
+    theme: cerulean
     font_adjustment: -1
 ---
 
