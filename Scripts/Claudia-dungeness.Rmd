@@ -1,8 +1,10 @@
 ---
-title: "Decline in South Sound's *Cancer magister* Fishery"
+title: "Decline in South Sound's *Cancer magister*  Fishery"
 author: "Claudia Mateo"
-date: "11/21/2019"
-output: ioslides_presentation
+output: 
+  slidy_presentation:
+    theme: cosmo
+    font_adjustment: -1
 ---
 
 ```{r setup, include=FALSE}
@@ -10,7 +12,7 @@ library(dplyr)
 library(tidyverse)
 ```
 
-## Data
+## **Data**
 
 - Catch data in lbs. was collated for marine areas 10, 11, and 13 from Washington Department of Fish and Wildlife catch records. 
 - Combined, areas 10, 11, and 13 represent the Sound. 
@@ -20,7 +22,7 @@ library(tidyverse)
 
 - In all raw data, ending numerals in variable name represent marine area.
 
-## Marine areas 11 & 13 catch data
+## **Marine areas 11 & 13 catch data**
 
 ```{r catch one, cache=TRUE}
 DC_catch.10 <- read.csv("../Data/2007.2017_DC_catch.10.csv", header = TRUE)
@@ -30,7 +32,7 @@ DC_catch.10 <- read.csv("../Data/2007.2017_DC_catch.10.csv", header = TRUE)
 knitr::kable(DC_catch.10)
 ```
 
-## Marina area 10 catch data
+## **Marina area 10 catch data**
 ```{r catch two, cache=TRUE}
 DC_catch.11.13 <- read.csv("../Data/2007.2017_DC_catch.csv", header = TRUE)
 ```
@@ -39,38 +41,64 @@ DC_catch.11.13 <- read.csv("../Data/2007.2017_DC_catch.csv", header = TRUE)
 knitr::kable(DC_catch.11.13)
 ```
 
-## Stitching tables
+## **Stitching tables**
 ```{r stitch, cache=TRUE}
 DC_catch <- inner_join(DC_catch.10, DC_catch.11.13, by = "year")
 ```
 
 There is now a single table describing the catch rates in lbs. at marine areas 10, 11, and 13.
 
-```{r, cache=TRUE}
-head(DC_catch)
+```{r stitched table, cache=TRUE, echo=FALSE}
+knitr::kable(DC_catch)
 ```
 
-## Plot of main data
+## **Editing column names**
+
+The column names need to be changed to making data tidying simpler.
+
+```{r column rename}
+DC_catch_renamed <- DC_catch %>% rename("10" = lbs_dungeness.10, 
+                                     "11" = lbs_dungeness.11, "13" = lbs_dungeness.13)
+```
+
+Columns names have now been changed to state the area although the observation is number of lbs caught. This table will be cleaned in the next step using tidyr.
+
+## **Gathering data**
+
+The tidyr gather function can be used to separate the observation column headed with the area number into two columns; one column describing the area and one the number of lbs.
+
+```{r gather data}
+DC_catch_tidy <- DC_catch_renamed %>% 
+  gather(`10`, `11`, `13`, key = "area", value = "lbs")
+```
+
+```{r gather data table, cache=TRUE, echo=FALSE}
+knitr::kable(DC_catch_tidy)
+```
+
+
+## **Plot of main data**
 
 Shows the growth and decline of the *C. magister* fishery in marine areas 10, 11, and 13 through pounds caught between 2007 and 2017.
 
 ```{r main plot, echo=FALSE, warning=FALSE, message=FALSE}
-ggplot(DC_catch) +
-  geom_point(mapping = aes(x = year, y = lbs_dungeness.11), col = "blue", 
-             shape  = "triangle") +
-  geom_smooth(mapping = aes(x = year, y = lbs_dungeness.11), col = "blue") +
-  geom_point(mapping = aes(x = year, y = lbs_dungeness.13), col = "red") +
-  geom_smooth(mapping = aes(x = year, y = lbs_dungeness.13), col = "red") +
-  ylim(0,125000) +
+ggplot(DC_catch_tidy) +
+  geom_point(mapping = aes(x = year, y = lbs, col = area)) +
+  geom_smooth(mapping = aes(x = year, y = lbs, col = area)) +
   labs(title = "Pounds of Dungeness Caught per Year", x = "Year", 
-       y = "Pounds of Dungeness")
+       y = "Pounds of Dungeness", col = "Area")
 ```
 
-## Analysis
+This graph uses the DC_catch_tidy dataframe.
+
+## **Analysis**
 
 Looking for trends within the main plot.
 
 **Data subsets for analysis**
+
+Subsets focus in on a particular part of the data showing a decline.
+
 ```{r subsets, cache=TRUE}
 lin_data.10 <- subset(DC_catch, year %in% c("2013", "2014", "2015", "2016", "2017"))
 lin_data.11 <- subset(DC_catch, year %in% c("2014", "2015", "2016", "2017"))
@@ -78,13 +106,15 @@ lin_data.13 <- subset(DC_catch, year %in% c("2011", "2012", "2013", "2014",
                                             "2015", "2016", "2017"))
 ```
 
-Subsets focus in on a particular part of the data showing a decline.
+The data subset for area 10 focuses on 2013-2017, area 11 2014-2017, and area 13 2011-2017.
 
-## Linear models using subsets
+## **Linear models using subsets**
 
-![dungeness](../Images/dungeness_crab.jpg)
+![*C. magister*](../Images/dungeness_crab.jpg)
 
-## Liner model - Area 10
+All linear models are created using the DC_catch dataframe.
+
+## **Liner model - Area 10**
 ```{r linear model 10, cache=TRUE, echo=FALSE}
 lm_fit.10 <- lm(year ~ lbs_dungeness.10, data=lin_data.10)
 ```
@@ -92,7 +122,7 @@ lm_fit.10 <- lm(year ~ lbs_dungeness.10, data=lin_data.10)
 summary(lm_fit.10)
 ```
 
-## Linear model - Area 11
+## **Linear model - Area 11**
 ```{r linear model 11, cache=TRUE, echo=FALSE}
 lm_fit.11 <- lm(year ~ lbs_dungeness.11, data=lin_data.11)
 ```
@@ -100,7 +130,7 @@ lm_fit.11 <- lm(year ~ lbs_dungeness.11, data=lin_data.11)
 summary(lm_fit.11)
 ```
 
-## Linear model - Area 13
+## **Linear model - Area 13**
 ```{r linear model 13, cache=TRUE, echo=FALSE}
 lm_fit.13 <- lm(year ~ lbs_dungeness.13, data=lin_data.13)
 ```
@@ -108,18 +138,19 @@ lm_fit.13 <- lm(year ~ lbs_dungeness.13, data=lin_data.13)
 summary(lm_fit.13)
 ```
 
-**Analysis findings**
-There is no significant decrease in catch rate in marine area 10, however there is a significant decrease in areas 11 and 13.
+## **Analysis findings**
 
-## Subset plots
+Based off of the previously conducted linear models, there is no significant decrease in catch rate in marine area 10. However there is a significant decrease in areas 11 and 13.
 
-Shows a significant decrease in *C. magister* catch from 2014 to 2017.
-
-![dying dungeness](../Images/dungeness_decline.jpg)
-
-## Marine area 11
+## **Subset plots**
 
 Shows a significant decrease in *C. magister* catch from 2014 to 2017.
+
+![*C. magister* in a poor habitat](../Images/dungeness_decline.jpg)
+
+## **Marine area 11**
+
+This graph shows a significant decrease in *C. magister* catch from 2014 to 2017.
 
 ```{r subset plot area 11, echo=FALSE, warning=FALSE, message=FALSE}
 predicted.11 <- data.frame(catch_pred = predict(lm_fit.11, lin_data.11), 
@@ -127,15 +158,15 @@ predicted.11 <- data.frame(catch_pred = predict(lm_fit.11, lin_data.11),
 
 ggplot(lin_data.11) +
   geom_point(mapping = aes( x = year, y = lbs_dungeness.11), 
-             col = "blue", shape = "triangle", size = 3) +
+             col = "green4", size = 3) +
   geom_line(data = predicted.11, aes(x=catch_pred, y=lbs_dungeness.11)) +
   labs(title = "Pounds of Dungeness Caught per Year", x = "Year", 
        y = "Pounds of Dungeness")
 ```
 
-## Marine area 13
+## **Marine area 13**
 
-Shows a significant decrease in *C. magister* catch from 2011 to 2017.
+This graph shows a significant decrease in *C. magister* catch from 2011 to 2017.
 
 ```{r subset plot area 13, echo=FALSE,  warning=FALSE, message=FALSE}
 predicted.13 <- data.frame(catch_pred = predict(lm_fit.13, lin_data.13), 
@@ -143,7 +174,7 @@ predicted.13 <- data.frame(catch_pred = predict(lm_fit.13, lin_data.13),
 
 ggplot(lin_data.13) +
   geom_point(mapping = aes( x = year, y = lbs_dungeness.13), 
-             col = "red", size = 3) +
+             col = "blue", size = 3) +
   geom_line(data = predicted.13, aes(x=catch_pred, y=lbs_dungeness.13)) +
   labs(title = "Pounds of Dungeness Caught per Year", x = "Year", 
        y = "Pounds of Dungeness")

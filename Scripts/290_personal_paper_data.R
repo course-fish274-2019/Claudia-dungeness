@@ -2,7 +2,7 @@
 library(dplyr)
 library(tidyverse)
 library(ggpubr)
-library(devtools)
+library(broom)
 
 #Load data, areas 11 & 13
 DC_catch.11.13 <- read.csv("Data/2007.2017_DC_catch.csv", header = TRUE)
@@ -56,30 +56,46 @@ summary(lm_fit.13)
 #Regression line dataframe, area 11
 predicted.11 <- data.frame(catch_pred = predict(lm_fit.11, lin_data.11), 
                            lbs_dungeness.11=lin_data.11$lbs_dungeness.11)
-lm_fit.11 <- function(lin_data.11){
-  m.11 <- lm(year ~ lbs_dungeness.11, lin_data.11);
-  eq.11 <- substitute(italic(y) == a + b %.% italic(x)*","~~italic(r)^2~"="~r2, 
-                   list(a = format(unname(coef(m.11)[1]), digits = 2),
-                        b = format(unname(coef(m.11)[2]), digits = 2),
-                        r2 = format(summary(m.11)$r.squared, digits = 3)))
-  as.character(as.expression(eq.11));
-}
+
+#lm_fit.11 dataframe
+fit.11 <- tidy(lm_fit.11)
+fit.11.R <- glance(lm_fit.11)
 
 #Plot, area 11
 ggplot(lin_data.11) +
   geom_point(mapping = aes(x = year, y = lbs_dungeness.11), 
-             col = "blue", shape = "triangle", size = 3) +
+             col = "green4", size = 3) +
   geom_line(data = predicted.11, aes(x=catch_pred, y=lbs_dungeness.11)) +
   labs(title = "Pounds of Dungeness Caught per Year - Area 11", x = "Year", 
-       y = "Pounds of Dungeness") + geom_text(x = 5, y = 10, label = lm_fit.11(lin_data.11), parse = TRUE)
+       y = "Pounds of Dungeness") +
+  annotate("text", label = paste(paste(round(fit.11[2,2], digits = 8), "x", 
+          sep=""), round(fit.11[1,2]), sep="+"), 
+           x = max(lin_data.11$year)-0.75, 
+           y = max(lin_data.11$lbs_dungeness.11)-15000) +
+  annotate("text", label = paste("R^2", round(fit.11.R[1,2], digits = 4), sep = "="), 
+           x = max(lin_data.11$year)-0.75, 
+           y = max(lin_data.11$lbs_dungeness.11)-21000)
+           
 #Area 13
 #Regression line dataframe, area 13
 predicted.13 <- data.frame(catch_pred = predict(lm_fit.13, lin_data.13), 
                            lbs_dungeness.13=lin_data.13$lbs_dungeness.13)
+
+#lm_fit.13 dataframes
+fit.13 <- tidy(lm_fit.13)
+fit.13.R <- glance(lm_fit.13)
+
 #Plot, area 13
 ggplot(lin_data.13) +
   geom_point(mapping = aes( x = year, y = lbs_dungeness.13), 
-             col = "red", size = 3) +
+             col = "blue", size = 3) +
   geom_line(data = predicted.13, aes(x=catch_pred, y=lbs_dungeness.13)) +
   labs(title = "Pounds of Dungeness Caught per Year - Area 13", x = "Year", 
-       y = "Pounds of Dungeness")
+       y = "Pounds of Dungeness") +
+  annotate("text", label = paste(paste(round(fit.13[2,2], digits = 8), "x", 
+                                       sep=""), round(fit.13[1,2]), sep="+"), 
+           x = max(lin_data.13$year)-1.5, 
+           y = max(lin_data.13$lbs_dungeness.13)-10000) +
+  annotate("text", label = paste("R^2", round(fit.13.R[1,2], digits = 4), sep = "="), 
+                                 x = max(lin_data.13$year)-1.5, 
+           y = max(lin_data.13$lbs_dungeness.13)-14000)
