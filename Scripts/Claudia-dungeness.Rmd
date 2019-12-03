@@ -148,35 +148,115 @@ Shows a significant decrease in *C. magister* catch from 2014 to 2017.
 
 ![*C. magister* in a poor habitat](../Images/dungeness_decline.jpg)
 
-## **Marine area 11**
+## **Regression line dataframe for area 11 plot**
+
+A new dataframe is created containing the regression line points from the area 11 linear model previous conducted.
+
+```{r}
+predicted.11 <- data.frame(catch_pred = predict(lm_fit.11, lin_data.11), 
+                           lbs_dungeness.11=lin_data.11$lbs_dungeness.11)
+```
+
+```{r}
+knitr::kable(predicted.11)
+```
+
+## **Linear model dataframes for area 13 plot**
+
+A new dataframe is created containing the estimated coefficients from the area 11 linear model previously conducted.
+
+```{r area 13 tidy df}
+fit.11 <- tidy(lm_fit.11)
+```
+
+```{r area 13 tidy table, cache=TRUE, echo=FALSE}
+knitr::kable(fit.11)
+```
+
+A new dataframe is created containing the adjusted R^2 value from the area 11 linear model previously conducted.
+
+```{r area 13 glance df}
+fit.11.R <- glance(lm_fit.11)
+```
+
+```{r area 13 glance table, cache=TRUE, echo=FALSE}
+knitr::kable(fit.11.R)
+```
+
+## **Marine area 11 plot**
 
 This graph shows a significant decrease in *C. magister* catch from 2014 to 2017.
 
 ```{r subset plot area 11, echo=FALSE, warning=FALSE, message=FALSE}
-predicted.11 <- data.frame(catch_pred = predict(lm_fit.11, lin_data.11), 
-                           lbs_dungeness.11=lin_data.11$lbs_dungeness.11)
-
 ggplot(lin_data.11) +
-  geom_point(mapping = aes( x = year, y = lbs_dungeness.11), 
+  geom_point(mapping = aes(x = year, y = lbs_dungeness.11), 
              col = "green4", size = 3) +
   geom_line(data = predicted.11, aes(x=catch_pred, y=lbs_dungeness.11)) +
-  labs(title = "Pounds of Dungeness Caught per Year", x = "Year", 
-       y = "Pounds of Dungeness")
+  labs(title = "Pounds of Dungeness Caught per Year - Area 11", x = "Year", 
+       y = "Pounds of Dungeness") +
+  annotate("text", label = paste(paste(round(fit.11[2,2], digits = 8), "x", 
+          sep=""), round(fit.11[1,2]), sep="+"), 
+           x = max(lin_data.11$year)-0.75, 
+           y = max(lin_data.11$lbs_dungeness.11)-15000) +
+  annotate("text", label = paste("R^2", round(fit.11.R[1,2], digits = 4), sep = "="), 
+           x = max(lin_data.11$year)-0.75, 
+           y = max(lin_data.11$lbs_dungeness.11)-21000)
 ```
 
-## **Marine area 13**
+## **Regression line dataframe for area 13 plot**
+
+A new dataframe is created containing the regression line points from the area 13 linear model previous conducted.
+
+```{r}
+predicted.13 <- data.frame(catch_pred = predict(lm_fit.13, lin_data.13), 
+                           lbs_dungeness.13=lin_data.13$lbs_dungeness.13)
+```
+
+```{r}
+knitr::kable(predicted.13)
+```
+
+
+## **Linear model dataframes for area 13 plot**
+
+A new dataframe is created containing the estimated coefficients from the area 11 linear model previously conducted.
+
+```{r area 13 tidy df}
+fit.13 <- tidy(lm_fit.13)
+```
+
+```{r area 13 tidy table, cache=TRUE, echo=FALSE}
+knitr::kable(fit.13)
+```
+
+A new dataframe is created containing the R^2 value from the area 11 linear model previously conducted.
+
+```{r area 13 glance df}
+fit.13.R <- glance(lm_fit.13)
+```
+
+```{r area 13 glance table, cache=TRUE, echo=FALSE}
+knitr::kable(fit.13.R)
+```
+
+
+## **Marine area 13 plot**
 
 This graph shows a significant decrease in *C. magister* catch from 2011 to 2017.
 
 ```{r subset plot area 13, echo=FALSE,  warning=FALSE, message=FALSE}
-predicted.13 <- data.frame(catch_pred = predict(lm_fit.13, lin_data.13), 
-                           lbs_dungeness.13=lin_data.13$lbs_dungeness.13)
-
 ggplot(lin_data.13) +
   geom_point(mapping = aes( x = year, y = lbs_dungeness.13), 
              col = "blue", size = 3) +
   geom_line(data = predicted.13, aes(x=catch_pred, y=lbs_dungeness.13)) +
-  labs(title = "Pounds of Dungeness Caught per Year", x = "Year", 
-       y = "Pounds of Dungeness")
+  labs(title = "Pounds of Dungeness Caught per Year - Area 13", x = "Year", 
+       y = "Pounds of Dungeness") +
+  annotate("text", label = paste(paste(round(fit.13[2,2], digits = 8), "x", 
+                                       sep=""), round(fit.13[1,2]), sep="+"), 
+           x = max(lin_data.13$year)-1.5, 
+           y = max(lin_data.13$lbs_dungeness.13)-10000) +
+  annotate("text", label = paste("R^2", round(fit.13.R[1,2], digits = 4), sep = "="), 
+                                 x = max(lin_data.13$year)-1.5, 
+           y = max(lin_data.13$lbs_dungeness.13)-14000)
 ```
 
