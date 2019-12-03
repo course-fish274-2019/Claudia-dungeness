@@ -10,6 +10,7 @@ output:
 ```{r setup, include=FALSE}
 library(dplyr)
 library(tidyverse)
+library(broom)
 ```
 
 ## **Data**

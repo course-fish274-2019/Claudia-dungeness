@@ -1,7 +1,6 @@
 #Load packages
 library(dplyr)
 library(tidyverse)
-library(ggpubr)
 library(broom)
 
 #Load data, areas 11 & 13
