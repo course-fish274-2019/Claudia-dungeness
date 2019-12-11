@@ -149,7 +149,7 @@ Shows a significant decrease in *C. magister* catch from 2014 to 2017.
 
 ![*C. magister* in a poor habitat](../Images/dungeness_decline.jpg)
 
-## **Linear model dataframes for area 13 plot**
+## **Linear model dataframes for area 13 plot - Coefficients**
 
 A new dataframe is created containing the estimated coefficients from the area 11 linear model previously conducted.
 
@@ -160,6 +160,8 @@ fit.11 <- tidy(lm_fit.11)
 ```{r area 11 tidy table, cache=TRUE, echo=FALSE}
 knitr::kable(head(fit.11))
 ```
+
+## **Linear model dataframes for area 13 plot - R squared values**
 
 A new dataframe is created containing the adjusted R^2 value from the area 11 linear model previously conducted.
 
@@ -180,7 +182,7 @@ predicted.11 <- data.frame(catch_pred = predict(lm_fit.11, lin_data.11),
                            lbs_dungeness.11=lin_data.11$lbs_dungeness.11)
 ```
 
-```{r area 11 regression line table}
+```{r area 11 regression line table, echo=FALSE}
 knitr::kable(head(predicted.11))
 ```
 
@@ -204,7 +206,7 @@ ggplot(lin_data.11) +
            y = max(lin_data.11$lbs_dungeness.11)-21000)
 ```
 
-## **Linear model dataframes for area 13 plot**
+## **Linear model dataframes for area 13 plot - Coefficients**
 
 A new dataframe is created containing the estimated coefficients from the area 13 linear model previously conducted.
 
@@ -215,6 +217,8 @@ fit.13 <- tidy(lm_fit.13)
 ```{r area 13 tidy table, cache=TRUE, echo=FALSE}
 knitr::kable(head(fit.13))
 ```
+
+## **Linear model dataframes for area 13 plot - R squared values**
 
 A new dataframe is created containing the R^2 value from the area 13 linear model previously conducted.
 
@@ -235,7 +239,7 @@ predicted.13 <- data.frame(catch_pred = predict(lm_fit.13, lin_data.13),
                            lbs_dungeness.13=lin_data.13$lbs_dungeness.13)
 ```
 
-```{r area 13 regression line table}
+```{r area 13 regression line table, echo=FALSE}
 knitr::kable(head(predicted.13))
 ```
 
